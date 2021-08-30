@@ -63,35 +63,6 @@ def update_item(item_id: str, what_to_update, value_for_update):
                       {"$set": {what_to_update: value_for_update}})
     return {"Message": f"{what_to_update} updated successfully to {value_for_update}"}
 
-# fake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"}]
-
-
-# class Item(BaseModel):
-#     name: str
-#     description: Optional[str] = None
-#     price: float
-#     tax: Optional[float] = None
-#
-#
-# @app.post("/items/")
-# async def create_item(item: Item):
-#     return item
-#
-#
-# @app.get("/")
-# async def root():
-#     return {"Message": "Hello World!"}
-
-
-# @app.get("/items")
-# async def read_another_item(skip: int = 0, limit: int = 10):
-#     return fake_items_db[skip: skip + limit]
-#
-#
-# @app.get("/items/{item_id}")
-# async def read_item(item_id: int):
-#     return {"item_id": item_id}
-
 
 if __name__ == '__main__':
     pass
