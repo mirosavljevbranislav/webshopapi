@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+  mongodb:
+    image: mongo:latest
+    environment:
+       MONGO_INITDB_DATABASE: Webshop
+       MONGO_INITDB_ROOT_USERNAME: Bangie
+       MONGO_INITDB_ROOT_PASSWORD: 1mirosavljev1
+    ports:
+      - "27017:27017"

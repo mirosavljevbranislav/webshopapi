@@ -1,7 +1,7 @@
 import datetime
 from uuid import uuid4
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 from pydantic import BaseModel, Field
 from pymongo import MongoClient
 
@@ -38,7 +38,7 @@ def get_items():
 def get_item(item_id: str):
     item = app.db.find_one({"_id": item_id})
     if item:
-        return {"item": item}
+        return item
     return {"Message": "Item not found!"}
 
 
@@ -57,11 +57,13 @@ def delete_item(item_id: str):
     return {"Message": f"Item {item['name']} removed successfully!"}
 
 
-@app.put("/items/")
-def update_item(item_id: str, what_to_update, value_for_update):
+@app.put("/items/{item_id}")
+def update_item(item_id: str, what_to_update: str = Body(..., embed=True), value_for_update=Body(..., embed=True)):
+    if what_to_update == "price":
+        value_for_update = float(value_for_update)
     app.db.update_one({"_id": item_id},
                       {"$set": {what_to_update: value_for_update}})
-    return {"Message": f"{what_to_update} updated successfully to {value_for_update}"}
+    return {f"{what_to_update} updated to {value_for_update}"}
 
 
 if __name__ == '__main__':
