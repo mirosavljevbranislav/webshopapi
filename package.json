@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/mirosavljevbranislav/webshopapi#readme",
   "publishConfig": {
-    "@mirosavljevbranislav:registry": "https://npm.pkg.github.com"
+    "@bane023:registry": "https://npm.pkg.github.com"
   }
 }
