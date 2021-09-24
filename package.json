@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Bangie01/WebshopAPi.git"
+    "url": "git+https://github.com/mirosavljevbranislav/webshopapi.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Bangie01/WebshopAPi/issues"
+    "url": "https://github.com/mirosavljevbranislav/webshopapi/issues"
   },
-  "homepage": "https://github.com/Bangie01/WebshopAPi#readme",
+  "homepage": "https://github.com/mirosavljevbranislav/webshopapi#readme",
   "publishConfig": {
     "@mirosavljevbranislav:registry": "https://npm.pkg.github.com"
   }
