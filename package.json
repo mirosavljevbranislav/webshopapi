@@ -1,0 +1,22 @@
+{
+  "name": "@mirosavljevbranislav/webshopapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mirosavljevbranislav/webshopapi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mirosavljevbranislav/webshopapi/issues"
+  },
+  "homepage": "https://github.com/mirosavljevbranislav/webshopapi#readme",
+  "publishConfig": {
+    "@mirosavljevbranislav:registry": "https://npm.pkg.github.com"
+  }
+}
