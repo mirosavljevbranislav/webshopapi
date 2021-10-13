@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "webshop.yml"
+    ansible.playbook = "ansible/webshop.yml"
   end
 
   config.vm.post_up_message = "Deplyoment successfull!"

@@ -1,0 +1,129 @@
+---
+- name: deploy
+  hosts: all
+  become: true
+  tasks:
+
+    - name: create user
+      user: 
+        name: bane
+        state: present
+        shell: /bin/bash
+        password: "{{ 'bane' | password_hash('sha512') }}"
+        update_password: on_create
+
+    - name: sshd password
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^PasswordAuthentication '
+        insertafter: '#PasswordAuthentication'
+        line: 'PasswordAuthentication yes'
+      notify: restart_sshd
+
+    - name: sudo
+      copy:
+       dest: /etc/sudoers.d/bane
+       content: "bane ALL=(root) NOPASSWD: ALL"
+    
+    # - name: Install required system dependencies
+    #   apt:
+    #     name:
+    #       - python-setuptools
+    #       - apt-transport-https
+    #       - ca-certificates
+    #       - curl
+    #       - gnupg 
+    #       - lsb-release
+    #       - python-pip
+    #     state: latest
+    
+    # - pip:
+    #     name: docker
+    - name: Update apt cache
+      apt: update_cache=yes cache_valid_time=3600
+
+    - name: Upgrade all apt packages
+      apt: upgrade=dist
+
+    - name: Install dependencies
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+      vars:
+        packages:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+        - gnupg-agent
+        - python-setuptools
+        - python-pip
+      
+    - name: Add an apt signing key for Docker
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add apt repository for stable version
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+      vars:
+        packages:
+        - docker-ce
+        - docker-ce-cli 
+        - containerd.io
+
+    - name: Add user to docker group
+      user:
+        name: "{{ansible_user}}"
+        group: docker
+
+    - name: Download docker-compose {{ 1.29.2 }}
+      get_url:
+        url : https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
+        dest: ~/docker-compose
+        mode: '+x'
+
+    - name: Check docker-compose exists
+      stat: path=~/docker-compose
+      register: docker_compose
+
+    - name: Move docker-compose to /usr/local/bin/docker-compose
+      command: mv ~/docker-compose /usr/local/bin/docker-compose
+      when: docker_compose.stat.exists
+
+    - pip:
+        name: requests
+    - pip:
+        name: docker
+    
+    - name: Log into ghcr
+      docker_login:
+        registry: ghcr.io
+        username: mirosavljevbranislav
+        password: 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
+
+    - name: pull webshop image
+      docker_image:
+        name: ghcr.io/mirosavljevbranislav/webshop:latest
+        source: pull
+    - name: build webshop image
+      docker_image:
+        build: 
+            path: /var/lib/docker
+        name: ghcr.io/mirosavljevbranislav/webshop:latest
+        source: build
+        
+  handlers:
+    - name: restart_sshd
+      service:
+        name: sshd
+        state: restarted
