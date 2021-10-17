@@ -1,5 +1,5 @@
 ---
-- name: deploy
+- name: deploy api
   hosts: all
   become: true
   tasks:
@@ -25,20 +25,6 @@
        dest: /etc/sudoers.d/bane
        content: "bane ALL=(root) NOPASSWD: ALL"
     
-    # - name: Install required system dependencies
-    #   apt:
-    #     name:
-    #       - python-setuptools
-    #       - apt-transport-https
-    #       - ca-certificates
-    #       - curl
-    #       - gnupg 
-    #       - lsb-release
-    #       - python-pip
-    #     state: latest
-    
-    # - pip:
-    #     name: docker
     - name: Update apt cache
       apt: update_cache=yes cache_valid_time=3600
 
@@ -103,23 +89,23 @@
     - pip:
         name: requests
     - pip:
-        name: docker
+        name: docker 
     
     - name: Log into ghcr
       docker_login:
         registry: ghcr.io
         username: mirosavljevbranislav
-        password: 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
+        password: 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
 
     - name: pull webshop image
       docker_image:
-        name: ghcr.io/mirosavljevbranislav/webshop:latest
+        name: ghcr.io/mirosavljevbranislav/webshop:bangie
         source: pull
     - name: build webshop image
       docker_image:
         build: 
             path: /var/lib/docker
-        name: ghcr.io/mirosavljevbranislav/webshop:latest
+        name: ghcr.io/mirosavljevbranislav/webshop:bangie
         source: build
         
   handlers:
