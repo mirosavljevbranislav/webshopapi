@@ -45,7 +45,7 @@
         - gnupg-agent
         - python-setuptools
         - python-pip
-      
+
     - name: Add an apt signing key for Docker
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
@@ -95,7 +95,7 @@
       docker_login:
         registry: ghcr.io
         username: mirosavljevbranislav
-        password: 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
+        password: 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
 
     - name: pull webshop image
       docker_image:
@@ -104,7 +104,7 @@
     - name: build webshop image
       docker_image:
         build: 
-            path: /var/lib/docker
+            path: /home/vagrant/test_folder
         name: ghcr.io/mirosavljevbranislav/webshop:bangie
         source: build
         

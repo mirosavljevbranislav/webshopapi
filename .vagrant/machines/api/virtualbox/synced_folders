@@ -1,1 +1,1 @@
-{"virtualbox":{"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/bane/PycharmProjects/webshop_task","disabled":false,"__vagrantfile":true}}}
+{"virtualbox":{"/home/vagrant":{"guestpath":"/home/vagrant","hostpath":"/home/bane/test_folder","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/bane/PycharmProjects/webshop_task","disabled":false,"__vagrantfile":true}}}

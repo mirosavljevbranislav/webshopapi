@@ -4,8 +4,11 @@ Vagrant.configure("2") do |config|
   config.vm.define "api" do |api|
 
     api.vm.box = "hashicorp/bionic64"
-    api.vm.network "forwarded_port", guest: 22, host: 8000, protocol: "tcp"
+    
+    api.vm.network "forwarded_port", guest: 8000, host: 8400, protocol: "tcp"
 
+    api.vm.synced_folder "/home/bane/test_folder", "/home/vagrant"
+    
     api.vm.provider "virtualbox" do |vb|
       vb.memory = "2048"
     end
@@ -13,7 +16,7 @@ Vagrant.configure("2") do |config|
     api.vm.provision "ansible" do |ansible|
       ansible.playbook = "ansible/deploy_api.yml"
     end
-    api.vm.post_up_message = "API deplyoment successfull!"
+    api.vm.post_up_message = "API deployment successful!"
   end
 
   # Creating vm for database
@@ -25,18 +28,14 @@ Vagrant.configure("2") do |config|
       vb.memory = "1024"
     end
 
-    # Shell scripts for setting up mongodb, docker, python, 
-    db.vm.provision "shell", path: "/home/bane/PycharmProjects/webshop_task/shell_scripts/dc_install.sh"
-    db.vm.provision "shell", path: "/home/bane/PycharmProjects/webshop_task/shell_scripts/dc_shell.sh" 
+    db.vm.provision "ansible" do |ansible|
+      ansible.playbook = "ansible/deploy_db.yml"
+    end
 
-    # db.vm.provision "ansible" do |ansible|
-    #   ansible.playbook = "ansible/deploy_db.yml"
-    # end
-
-    config.vm.post_up_message = "Database deplyoment successfull!"    
+    config.vm.post_up_message = "Database deployment successful!"    
   end
 
 
 
-  config.vm.post_up_message = "Deplyoment successfull!"
+  config.vm.post_up_message = "Deployment successful!"
 end
