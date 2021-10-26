@@ -1,22 +1,25 @@
 Vagrant.configure("2") do |config|
 
   # Creating vm for API
-  config.vm.define "api" do |api|
+  config.vm.define "webshop_api" do |webshop_api|
 
-    api.vm.box = "hashicorp/bionic64"
-    
-    api.vm.network "forwarded_port", guest: 8000, host: 8400, protocol: "tcp"
+    #webshop_api.vm.network "public_network", ip: "192.168.0.17"
 
-    api.vm.synced_folder "/home/bane/test_folder", "/home/vagrant"
+    webshop_api.vm.box = "hashicorp/bionic64"
     
-    api.vm.provider "virtualbox" do |vb|
+    webshop_api.vm.network "forwarded_port", guest: 8000, host: 8400
+
+    #webshop_api.vm.synced_folder "/home/bane/test_folder", "/home/vagrant"
+    
+    webshop_api.vm.provider "virtualbox" do |vb|
       vb.memory = "2048"
     end
 
-    api.vm.provision "ansible" do |ansible|
+    webshop_api.vm.provision "ansible" do |ansible|
+      #ansible.host_key_checking = false
       ansible.playbook = "ansible/deploy_api.yml"
     end
-    api.vm.post_up_message = "API deployment successful!"
+    webshop_api.vm.post_up_message = "API deployment successful!"
   end
 
   # Creating vm for database

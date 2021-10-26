@@ -92,15 +92,18 @@
         name: docker 
     
     - name: Log into ghcr
+      
       docker_login:
         registry: ghcr.io
         username: mirosavljevbranislav
-        password: cat /home/bane/Desktop/hehe/hehe3
+        password: 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
+
 
     - name: pull webshop image
       docker_image:
         name: ghcr.io/mirosavljevbranislav/webshop:bangie
         source: pull
+
     - name: build webshop image
       docker_image:
         build: 
