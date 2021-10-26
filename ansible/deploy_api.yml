@@ -96,7 +96,7 @@
       docker_login:
         registry: ghcr.io
         username: mirosavljevbranislav
-        password: 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
+        password: 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
 
 
     - name: pull webshop image
